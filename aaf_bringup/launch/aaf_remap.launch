@@ -44,7 +44,7 @@
 
     </node>
     
-    <node pkg="aaf_bringup" type="save_and_upload_maps.py" name="save_and_upload_maps" respawn="true">
+    <!--<node pkg="aaf_bringup" type="save_and_upload_maps.py" name="save_and_upload_maps" respawn="true">
       <param name="map_folder" value="$(arg map_folder)"/>
-    </node>
+    </node-->
 </launch>

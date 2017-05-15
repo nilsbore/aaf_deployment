@@ -123,6 +123,7 @@ void mapCallback(const strands_navigation_msgs::TopologicalMapConstPtr& msg)
 
 	graph.load(msg,&frelementSet);
 	graph.setPlanningHorizon(planningHorizon);
+	graph.setMethod(methodName);
 	mapReceived = true;
 	//simulator.initFremen();
 }
@@ -147,7 +148,7 @@ void reconfigureCallback(infremen::infremenConfig &config, uint32_t level)
 	rescheduleCheckTime = config.rescheduleCheckTime;
 
 	/*TODO I tested only with one task, this is to be sure that it's not reconfigured*/ 
-	//maxTaskNumber = config.maxTaskNumber;
+	maxTaskNumber = config.maxTaskNumber;
 	if (maxTaskNumber > 1) maxTaskNumber = 1;
 }
 
@@ -518,7 +519,7 @@ int createTask(int slot)
 
 		task.start_after =  ros::Time(timeSlots[slot]+taskStartDelay,0);
 		task.end_before = ros::Time(timeSlots[slot]+windowDuration - 2,0);
-		task.max_duration = task.end_before - task.start_after;
+		task.max_duration = ros::Duration(1);//task.end_before - task.start_after;
 		strands_executive_msgs::AddTask taskAdd;
 		taskAdd.request.task = task;
 		if (taskAdder.call(taskAdd))
@@ -636,8 +637,8 @@ int main(int argc,char* argv[])
 
 
 	//load experiment parameters
-	n->param<std::string>("method", methodName,"artificial");
-	n->param<std::string>("subname", subName, "exploitation");
+	n->param<std::string>("method", methodName,"exploration");
+	n->param<std::string>("subname", subName, "exploration");
 	n->param<double>("paramA", A, 0.5);
 	n->param<double>("paramB", B, 100.0);
 	n->param<int>("planningHorizon", planningHorizon, 15.0);
@@ -714,7 +715,7 @@ int main(int argc,char* argv[])
 				int a=getNextTimeSlot(numCurrentTasks);
 				if ( a >= 0)
 				{
-					strands_executive_msgs::CancelTask taskCanc;
+					/*strands_executive_msgs::CancelTask taskCanc;
 					taskCanc.request.task_id = lastTask;
 					taskCancel.call(taskCanc);
 					ROS_INFO("Cancelling task %i",lastTask);
@@ -728,7 +729,7 @@ int main(int argc,char* argv[])
 					for (int i = 0;i<5;i++){	
 						usleep(100000);
 						ros::spinOnce();
-					}
+					}*/
 					createTask(a);
 					numCurrentTasks++;
 				}
