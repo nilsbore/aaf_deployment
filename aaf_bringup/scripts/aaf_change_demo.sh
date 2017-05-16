@@ -1,11 +1,18 @@
 #!/bin/bash
 
+# Topics to visualize:
+# /quasimodo/segmentation/roomObservation/dynamic_clusters - overlay on room observation
+# /quasimodo_db_visualization - current quasimodo database image
+# /quasimodo_retrieval/visualization - the query images
+# XXX - the complete room cloud
+
+
 SESSION=change_demo
 
 TOP_MAP=aaf_y4
 CONF=human_activity
 WAYPOINTS=aaf_y4
-DATA_PATH=/storage/quasimodo
+DATA_PATH="/storage/quasimodo"
 
 tmux -2 new-session -d -s $SESSION
 # Setup a window for tailing log files
@@ -19,7 +26,7 @@ tmux select-window -t $SESSION:0
 tmux split-window -h
 tmux select-pane -t 0
 tmux send-keys "ssh werner-left-cortex" C-m
-tmux send-keys "cd $(DATA_PATH)" C-m
+tmux send-keys "cd $DATA_PATH" C-m
 tmux send-keys "DISPLAY=:0.0 rosrun quasimodo_brain modelserver -addSomaOnline -oclusion_penalty 15"
 tmux select-pane -t 1
 tmux send-keys "ssh werner-left-cortex" C-m
@@ -27,7 +34,7 @@ tmux send-keys "DISPLAY=:0.0 rosrun quasimodo_brain metaroom_additional_view_pro
 
 tmux select-window -t $SESSION:1
 tmux send-keys "ssh werner-left-cortex" C-m
-tmux send-keys "DISPLAY=:0.0 roslaunch quasimodo_object_search object_search.launch data_path:=$(DATA_PATH) disable_processing:=true"
+tmux send-keys "DISPLAY=:0.0 roslaunch quasimodo_object_search object_search.launch data_path:=$DATA_PATH disable_processing:=true"
 
 tmux select-window -t $SESSION:2
 tmux split-window -h
@@ -44,7 +51,7 @@ tmux select-pane -t 0
 tmux send-keys "ssh werner-left-cortex" C-m
 tmux send-keys "DISPLAY=:0.0 rosrun quasimodo_conversions soma_insert_model_server.py"
 tmux select-pane -t 1
-tmux send-keys "# SOMA VIS GOES HERE!"
+tmux send-keys "DISPLAY=:0 roslaunch soma_visualizer soma_visualizer.launch"
 
 tmux select-window -t $SESSION:4
 tmux split-window -h
