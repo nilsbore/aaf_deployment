@@ -33,10 +33,10 @@ if __name__ == '__main__':
     set_execution_status(True)
     print 'set execution'
 
-    task= Task(action='search_object', max_duration=rospy.Duration(600), start_node_id=waypoint, priority=9000)
+    task= Task(action='search_object', max_duration=rospy.Duration(600), start_node_id="WayPoint114", priority=9000)
     task_utils.add_string_argument(task, "WayPoint114")
-    task_utils.add_string_argument(task, "Office_2") # Movement roi
-    task_utils.add_string_argument(task, "Office_1") # Surface roi
+    task_utils.add_string_argument(task, "2") # Movement roi
+    task_utils.add_string_argument(task, "1") # Surface roi
     task_utils.add_string_argument(task, "object_full")
     print 'sending task demand'
     resp = demand_task(task)

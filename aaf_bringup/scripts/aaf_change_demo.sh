@@ -21,7 +21,10 @@ tmux new-window -t $SESSION:1 -n 'quasimodo_object_search'
 tmux new-window -t $SESSION:2 -n 'image_database_node'
 tmux new-window -t $SESSION:3 -n 'soma_insert_model_server'
 tmux new-window -t $SESSION:4 -n 'deep_net_object_store'
-tmux new-window -t $SESSION:5 -n 'add_change_demo'
+tmux new-window -t $SESSION:5 -n 'people_rejection'
+tmux new-window -t $SESSION:6 -n 'semantic_map'
+tmux new-window -t $SESSION:7 -n 'soma_roi_manager'
+tmux new-window -t $SESSION:8 -n 'add_change_demo'
 
 tmux select-window -t $SESSION:0
 tmux split-window -h
@@ -64,6 +67,17 @@ tmux send-keys "ssh werner-left-cortex" C-m
 tmux send-keys "DISPLAY=:0.0 rosrun deep_object_detection deep_object_detection_node.py --gpu 0 --net ResNet-50"
 
 tmux select-window -t $SESSION:5
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 rosrun local_metric_map_people_rejection people_rejection.py"
+
+tmux select-window -t $SESSION:6
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 roslaunch semantic_map_launcher semantic_map.launch"
+
+tmux select-window -t $SESSION:7
+tmux send-keys "DISPLAY=:0.0 rosrun soma_roi_manager soma_roi_node.py object_demo"
+
+tmux select-window -t $SESSION:8
 tmux send-keys "DISPLAY=:0.0 rosrun aaf_bringup add_change_demo.py"
 
 # Set default window
