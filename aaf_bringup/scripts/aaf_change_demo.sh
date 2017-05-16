@@ -21,6 +21,7 @@ tmux new-window -t $SESSION:1 -n 'quasimodo_object_search'
 tmux new-window -t $SESSION:2 -n 'image_database_node'
 tmux new-window -t $SESSION:3 -n 'soma_insert_model_server'
 tmux new-window -t $SESSION:4 -n 'deep_net_object_store'
+tmux new-window -t $SESSION:5 -n 'add_change_demo'
 
 tmux select-window -t $SESSION:0
 tmux split-window -h
@@ -61,6 +62,9 @@ tmux send-keys "DISPLAY=:0.0 rosrun deep_net_object_store deep_net_object_store_
 tmux select-pane -t 1
 tmux send-keys "ssh werner-left-cortex" C-m
 tmux send-keys "DISPLAY=:0.0 rosrun deep_object_detection deep_object_detection_node.py --gpu 0 --net ResNet-50"
+
+tmux select-window -t $SESSION:5
+tmux send-keys "DISPLAY=:0.0 rosrun aaf_bringup add_change_demo.py"
 
 # Set default window
 tmux select-window -t $SESSION:0
