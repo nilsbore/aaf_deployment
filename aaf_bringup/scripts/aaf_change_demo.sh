@@ -75,6 +75,17 @@ tmux send-keys "ssh werner-left-cortex" C-m
 tmux send-keys "DISPLAY=:0.0 roslaunch semantic_map_launcher semantic_map.launch"
 
 tmux select-window -t $SESSION:7
+tmux split-window -h
+tmux select-pane -t 0
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 roslaunch soma_manager soma_local.launch map_name:=aaf_y4_demo"
+tmux select-pane -t 1
+tmux split-window -h
+tmux select-pane -t 1
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 rosrun soma_manager object_manager.py object_demo"
+tmux select-pane -t 2
+tmux send-keys "ssh werner-left-cortex" C-m
 tmux send-keys "DISPLAY=:0.0 rosrun soma_roi_manager soma_roi_node.py object_demo"
 
 tmux select-window -t $SESSION:8
