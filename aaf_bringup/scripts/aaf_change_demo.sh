@@ -24,7 +24,8 @@ tmux new-window -t $SESSION:4 -n 'deep_net_object_store'
 tmux new-window -t $SESSION:5 -n 'people_rejection'
 tmux new-window -t $SESSION:6 -n 'semantic_map'
 tmux new-window -t $SESSION:7 -n 'soma_roi_manager'
-tmux new-window -t $SESSION:8 -n 'add_change_demo'
+tmux new-window -t $SESSION:8 -n 'view_planning'
+tmux new-window -t $SESSION:9 -n 'add_change_demo'
 
 tmux select-window -t $SESSION:0
 tmux split-window -h
@@ -89,6 +90,20 @@ tmux send-keys "ssh werner-left-cortex" C-m
 tmux send-keys "DISPLAY=:0.0 rosrun soma_roi_manager soma_roi_node.py object_demo"
 
 tmux select-window -t $SESSION:8
+tmux split-window -h
+tmux select-pane -t 0
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 roslaunch multi_object_learning_launcher run_viper_suite.launch"
+tmux select-pane -t 1
+tmux split-window -h
+tmux select-pane -t 1
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 roslaunch observation_registration_launcher observation_registration.launch"
+tmux select-pane -t 2
+tmux send-keys "ssh werner-left-cortex" C-m
+tmux send-keys "DISPLAY=:0.0 roslaunch multi_object_learning_launcher run_full_pipeline.launch"
+
+tmux select-window -t $SESSION:9
 tmux send-keys "DISPLAY=:0.0 rosrun aaf_bringup add_change_demo.py"
 
 # Set default window
